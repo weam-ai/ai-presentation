@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 font-body antialiased;
+}
+
+/* Slide aspect ratio helpers (16:9). A slide is rendered into a fixed
+   1280x720 coordinate space and scaled with CSS transform so font sizes
+   stay consistent across thumbnails, editor and print. */
+.slide-canvas {
+  width: 1280px;
+  height: 720px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Print: one slide per page, no app chrome. */
+@media print {
+  @page {
+    size: 1280px 720px;
+    margin: 0;
+  }
+
+  body {
+    background: white;
+  }
+
+  .no-print,
+  .screen-ui {
+    display: none !important;
+  }
+
+  .print-deck {
+    display: block !important;
+  }
+
+  .print-slide {
+    width: 1280px;
+    height: 720px;
+    page-break-after: always;
+    break-after: page;
+  }
+}

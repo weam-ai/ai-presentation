@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/app/config/withSession';
 import { presentations, sessionToUser } from '@/lib/presentations';
-import { nodeRuntime, withHandler } from '@/lib/route-handler';
+import { withHandler } from '@/lib/route-handler';
 import { createFromOutlineSchema } from '@/lib/schemas';
 
-export const runtime = nodeRuntime.runtime;
-export const dynamic = nodeRuntime.dynamic;
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export const POST = withHandler(async (req: Request) => {
     const session = await getSession();

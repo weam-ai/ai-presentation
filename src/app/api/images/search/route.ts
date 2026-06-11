@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { images } from '@/lib/images';
-import { nodeRuntime, withHandler } from '@/lib/route-handler';
+import { withHandler } from '@/lib/route-handler';
 
-export const runtime = nodeRuntime.runtime;
-export const dynamic = nodeRuntime.dynamic;
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export const GET = withHandler(async (req: Request) => {
     const { searchParams } = new URL(req.url);

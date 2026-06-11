@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { presentations } from '@/lib/presentations';
-import { nodeRuntime, withHandler } from '@/lib/route-handler';
+import { withHandler } from '@/lib/route-handler';
 import { updatePresentationSchema } from '@/lib/schemas';
 
-export const runtime = nodeRuntime.runtime;
-export const dynamic = nodeRuntime.dynamic;
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 type Params = { params: Promise<{ id: string }> };
 

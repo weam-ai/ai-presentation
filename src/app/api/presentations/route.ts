@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/app/config/withSession';
 import { presentations } from '@/lib/presentations';
-import { nodeRuntime, withHandler } from '@/lib/route-handler';
+import { withHandler } from '@/lib/route-handler';
 
-export const runtime = nodeRuntime.runtime;
-export const dynamic = nodeRuntime.dynamic;
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export const GET = withHandler(async () => {
     const session = await getSession();

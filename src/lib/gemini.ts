@@ -1,3 +1,4 @@
+import { GEMINI } from '@/app/config/config';
 import { GoogleGenAI } from '@google/genai';
 
 const model = 'gemini-3-flash-preview';
@@ -5,7 +6,7 @@ const model = 'gemini-3-flash-preview';
 let client: GoogleGenAI | null = null;
 
 function getClient(): GoogleGenAI {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = GEMINI.API_KEY;
     if (!apiKey) {
         throw new Error('Gemini is not configured. Set GEMINI_API_KEY in your environment.');
     }
@@ -34,7 +35,7 @@ function parseJson<T>(raw: string): T {
 
 export const gemini = {
     get isConfigured(): boolean {
-        return Boolean(process.env.GEMINI_API_KEY);
+        return Boolean(GEMINI.API_KEY);
     },
 
     async generateJson<T>(

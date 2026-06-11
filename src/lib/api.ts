@@ -1,10 +1,12 @@
 import type { Outline, Presentation, Slide, Theme, Tone, Verbosity } from './types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+// Same-origin API routes under /api (backend lives inside this Next.js app).
+const API_BASE = '';
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-    const res = await fetch(`${API_URL}${path}`, {
+    const res = await fetch(`${API_BASE}${path}`, {
         ...options,
+        credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json',
             ...(options.headers ?? {}),
@@ -46,45 +48,47 @@ export type FromOutlineRequest = {
 
 export const api = {
     generateOutline(body: OutlineRequest): Promise<Outline> {
-        return request<Outline>('/presentations/outline', {
+        return request<Outline>('/api/presentations/outline', {
             method: 'POST',
             body: JSON.stringify(body),
         });
     },
 
     createFromOutline(body: FromOutlineRequest): Promise<Presentation> {
-        return request<Presentation>('/presentations/from-outline', {
+        return request<Presentation>('/api/presentations/from-outline', {
             method: 'POST',
             body: JSON.stringify(body),
         });
     },
 
     list(): Promise<Presentation[]> {
-        return request<Presentation[]>('/presentations');
+        return request<Presentation[]>('/api/presentations');
     },
 
     get(id: string): Promise<Presentation> {
-        return request<Presentation>(`/presentations/${id}`);
+        return request<Presentation>(`/api/presentations/${id}`);
     },
 
     update(id: string, body: { title?: string; theme?: Theme; slides?: Slide[] }): Promise<Presentation> {
-        return request<Presentation>(`/presentations/${id}`, {
+        return request<Presentation>(`/api/presentations/${id}`, {
             method: 'PATCH',
             body: JSON.stringify(body),
         });
     },
 
     remove(id: string): Promise<{ id: string }> {
-        return request<{ id: string }>(`/presentations/${id}`, {
+        return request<{ id: string }>(`/api/presentations/${id}`, {
             method: 'DELETE',
         });
     },
 
     searchImage(q: string): Promise<{ url: string | null; configured: boolean }> {
-        return request<{ url: string | null; configured: boolean }>(`/images/search?q=${encodeURIComponent(q)}`);
+        return request<{ url: string | null; configured: boolean }>(
+            `/api/images/search?q=${encodeURIComponent(q)}`,
+        );
     },
 
     pptxUrl(id: string): string {
-        return `${API_URL}/presentations/${id}/export/pptx`;
+        return `/api/presentations/${id}/export/pptx`;
     },
 };
